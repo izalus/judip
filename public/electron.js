@@ -1,19 +1,25 @@
+// IMPORTS
 const electron = require("electron");
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-
 const path = require("path");
 const isDev = require("electron-is-dev");
-
-let mainWindow;
-
 require("update-electron-app")({
   repo: "kitze/react-electron-example",
   updateInterval: "1 hour"
 });
 
+// VARIABLES
+let mainWindow;
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
+
+// SUPPORT FUNCTIONS
 function createWindow() {
-  mainWindow = new BrowserWindow({ width: 900, height: 680, webPreferences: { nodeIntegration: true }});
+  mainWindow = new BrowserWindow({
+    width: 900,
+    height: 680,
+    frame: false,
+    webPreferences: { nodeIntegration: true }
+  });
   mainWindow.loadURL(
     isDev
       ? "http://localhost:3000"
@@ -22,6 +28,7 @@ function createWindow() {
   mainWindow.on("closed", () => (mainWindow = null));
 }
 
+// EVENT HANDLERS
 app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {
