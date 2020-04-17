@@ -7,6 +7,7 @@ import Store from "./App.store";
 import Editor from "Editor/Editor";
 import { colors } from "global/constants";
 import "components/Titlebar/Titlebar";
+import Sidebar from "components/Sidebar/Sidebar";
 
 // const {app} = window.require('electron').remote;
 
@@ -14,6 +15,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${colors.primary};
+  display: flex;
 `;
 
 const App = () => {
@@ -21,6 +23,7 @@ const App = () => {
 
   return (
     <Container>
+      <Sidebar />
       <Router>
         <Route path="/" component={Editor} />
       </Router>
