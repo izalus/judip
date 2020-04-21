@@ -16,6 +16,7 @@ const Container = styled.div`
   height: 100%;
   background-color: ${colors.primary};
   display: flex;
+  z-index: 0;
 `;
 
 const App = () => {

@@ -17,17 +17,42 @@ class Store {
       {
         Icon: Add,
         name: "New",
-        task: () => this.triggerModal(true)
+        task: () => {
+          this.triggerModal(this.preset(true));
+        }
       }
     ]
   };
 
+  preset = (open: boolean): Imodal => ({
+    open,
+    title: "Enter Recipe Name",
+    buttons: [
+      {
+        name: "Close",
+        task: () => {
+          this.closeModal();
+        }
+      },
+      {
+        name: "Add",
+        task: () => {}
+      }
+    ]
+  });
+
   modal: Imodal = {
-    open: true
+    open: false,
+    title: "",
+    buttons: []
   };
 
-  triggerModal = (open: boolean) => {
-    this.modal.open = open;
+  triggerModal = (modal: Imodal) => {
+    this.modal = modal;
+  };
+
+  closeModal = () => {
+    this.modal.open = false;
   };
 }
 

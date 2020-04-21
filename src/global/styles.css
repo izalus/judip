@@ -29,3 +29,9 @@ body {
 .window-controls-container {
   color: #bababa;
 }
+
+button,
+input {
+  outline: none;
+  border: none;
+}
