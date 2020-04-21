@@ -1,10 +1,4 @@
 import { FC } from "react";
-import { type } from "os";
-
-export interface Iconfig {
-  path: string;
-}
-
 interface Iaction {
   Icon: FC;
   name: string;

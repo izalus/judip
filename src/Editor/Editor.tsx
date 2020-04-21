@@ -1,10 +1,9 @@
 import React from "react";
-import { observer } from "mobx-react";
 
 import Container from "Editor/Editor.styles";
 import Modal from "components/Modal/Modal";
 
-const Editor: React.FC = () => {
+export const Editor: React.FC = () => {
   return (
     <Container>
       <Modal />
@@ -12,4 +11,4 @@ const Editor: React.FC = () => {
   );
 };
 
-export default observer(Editor);
+export default Editor;

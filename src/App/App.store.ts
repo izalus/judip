@@ -1,12 +1,8 @@
-import { Iconfig, Isidebar, Imodal } from "./App.types";
+import { Isidebar, Imodal } from "./App.types";
 import { decorate, observable, action } from "mobx";
 import { IoIosPlay as Run, IoIosAdd as Add } from "react-icons/io";
 
 class Store {
-  config: Iconfig = {
-    path: "/"
-  };
-
   sidebar: Isidebar = {
     actions: [
       {
@@ -57,7 +53,6 @@ class Store {
 }
 
 decorate(Store, {
-  config: observable,
   sidebar: observable,
   modal: observable,
 

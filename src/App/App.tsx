@@ -1,9 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { observer } from "mobx-react";
 import styled from "@emotion/styled";
 
-import Store from "./App.store";
 import Editor from "Editor/Editor";
 import { colors } from "global/constants";
 import "components/Titlebar/Titlebar";
@@ -19,9 +17,7 @@ const Container = styled.div`
   z-index: 0;
 `;
 
-const App = () => {
-  console.log(Store.config.path);
-
+export const App = () => {
   return (
     <Container>
       <Sidebar />
@@ -32,4 +28,4 @@ const App = () => {
   );
 };
 
-export default observer(App);
+export default App;
