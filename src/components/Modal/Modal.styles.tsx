@@ -16,6 +16,19 @@ export default styled.div`
   width: 50%;
   max-width: 512px;
   max-height: 80%;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 
   .title {
     font-size: 20px;

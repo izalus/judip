@@ -4,4 +4,17 @@ export default styled.div`
   height: 100%;
   flex: 1;
   position: relative;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
 `;
