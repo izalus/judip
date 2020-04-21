@@ -41,8 +41,8 @@ export const defaults = {
       label: "",
       value: "",
       placeholder: "Ex: python, java, akhileshns/wordpress"
-    },
-    {
+    }
+    /* {
       element: "input",
       type: "number",
       name: "ram",
@@ -75,6 +75,6 @@ export const defaults = {
       label: "Enter comments (if any)",
       value: "",
       optional: true
-    }
+    } */
   ]
 };

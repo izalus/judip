@@ -23,11 +23,11 @@ export default styled.div`
   }
 
   ::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: ${colors.dark_tint1};
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: ${colors.dark_tint2};
   }
 
   .title {

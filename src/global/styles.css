@@ -31,7 +31,10 @@ body {
 }
 
 button,
-input {
+input,
+select,
+textarea,
+option {
   outline: none;
   border: none;
 }

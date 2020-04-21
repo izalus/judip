@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { colors } from "global/constants";
 
 export default styled.div`
   height: 100%;
@@ -11,10 +12,10 @@ export default styled.div`
   }
 
   ::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: ${colors.dark_tint1};
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: ${colors.dark_tint2};
   }
 `;

@@ -16,7 +16,11 @@ export const getFormInput = (
           type="text"
           name={option.name}
           placeholder={
-            "placeholder" in option ? option.placeholder : "Can't be empty"
+            "placeholder" in option
+              ? option.placeholder
+              : "optional" in option && option.optional
+              ? ""
+              : "Can't be empty"
           }
           value={option.value}
           onChange={({ target }) => onChange(index, target.value)}
@@ -31,7 +35,11 @@ export const getFormInput = (
           type="text"
           name={option.name}
           placeholder={
-            "placeholder" in option ? option.placeholder : "Can't be empty"
+            "placeholder" in option
+              ? option.placeholder
+              : "optional" in option && option.optional
+              ? ""
+              : "Can't be empty"
           }
           value={option.value}
           onChange={({ target }) => {
@@ -57,7 +65,7 @@ export const getFormInput = (
     );
   } else if (option.element === "radio") {
     element = (
-      <div key={"form" + index}>
+      <div className="radio" key={"form" + index}>
         {option.label !== "" ? <label>{option.label}</label> : null}
         {option.options.map((item, i) => (
           <span key={"form-radio" + i}>
@@ -75,14 +83,14 @@ export const getFormInput = (
     );
   } else if (option.element === "checkbox") {
     element = (
-      <div key={"form" + index}>
-        {option.label !== "" ? <label>{option.label}</label> : null}
+      <div className="checkbox" key={"form" + index}>
         <input
           type="checkbox"
           name={option.name}
           checked={option.value}
           onChange={() => onChange(index, "")}
         />
+        {option.label !== "" ? <label>{option.label}</label> : null}
       </div>
     );
   } else if (option.element === "textarea") {
@@ -95,7 +103,11 @@ export const getFormInput = (
           value={option.value}
           onChange={({ target }) => onChange(index, target.value)}
           placeholder={
-            "placeholder" in option ? option.placeholder : "Can't be empty"
+            "placeholder" in option
+              ? option.placeholder
+              : "optional" in option && option.optional
+              ? ""
+              : "Can't be empty"
           }></textarea>
       </div>
     );

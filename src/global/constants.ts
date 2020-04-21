@@ -4,7 +4,9 @@ export const colors = {
   accent: "#358DF5",
   white: "#FFF",
   black: "#000",
-  gray: "#BABABA"
+  gray: "#BABABA",
+  dark_tint1: "rgba(0, 0, 0, 0.2)",
+  dark_tint2: "rgba(0, 0, 0, 0.4)"
 };
 
 export const shadows = {
