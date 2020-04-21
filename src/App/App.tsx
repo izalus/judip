@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 
 import Editor from "Editor/Editor";
 import { colors } from "global/constants";
-import "components/Titlebar/Titlebar";
 import Sidebar from "components/Sidebar/Sidebar";
 
 // const {app} = window.require('electron').remote;
