@@ -1,62 +1,44 @@
-import { Isidebar, Imodal } from "./App.types";
+import { Isidebar, Imodal, Iform } from "./App.types";
 import { decorate, observable, action } from "mobx";
 import { IoIosPlay as Run, IoIosAdd as Add } from "react-icons/io";
+import { defaults } from "./App.functions";
+import { cloneDeep } from "lodash";
 
 class Store {
-  sidebar: Isidebar = {
-    actions: [
-      {
-        Icon: Run,
-        name: "Run All",
-        task: () => {}
-      },
-      {
-        Icon: Add,
-        name: "New",
-        task: () => {
-          this.triggerModal(this.preset(true));
-        }
-      }
-    ]
-  };
-
-  preset = (open: boolean): Imodal => ({
-    open,
-    title: "Enter Recipe Name",
-    buttons: [
-      {
-        name: "Close",
-        task: () => {
-          this.closeModal();
-        }
-      },
-      {
-        name: "Add",
-        task: () => {}
-      }
-    ]
-  });
-
-  modal: Imodal = {
-    open: false,
-    title: "",
-    buttons: []
-  };
-
-  triggerModal = (modal: Imodal) => {
-    this.modal = modal;
+  openModal = () => {
+    this.modal.open = true;
   };
 
   closeModal = () => {
     this.modal.open = false;
   };
+
+  onFormChange = (index: number, value: string) => {
+    if (this.form[index].element === "checkbox") {
+      this.form[index].value = !this.form[index].value;
+    } else {
+      this.form[index].value = value;
+    }
+  };
+
+  setForm = (form: Iform[]) => {
+    this.form = form;
+  };
+
+  sidebar: Isidebar = defaults.sidebar(Run, Add, this.openModal);
+  modal: Imodal = defaults.modal(this.closeModal);
+  form: Iform[] = defaults.form();
 }
 
 decorate(Store, {
+  openModal: action,
+  closeModal: action,
+  onFormChange: action,
+  setForm: action,
+
   sidebar: observable,
   modal: observable,
-
-  triggerModal: action
+  form: observable
 });
 
 export default new Store();

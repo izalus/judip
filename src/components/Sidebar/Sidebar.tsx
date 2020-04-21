@@ -5,7 +5,7 @@ import Store from "App/App.store";
 import { Isidebar } from "App/App.types";
 import Container from "./Sidebar.styles";
 
-export const Sidebar: React.FC<Isidebar> = props => {
+export const Sidebar: React.FC<Isidebar> = observer(props => {
   return (
     <Container>
       {props.actions.map(({ name, Icon, task }, i) => (
@@ -16,6 +16,6 @@ export const Sidebar: React.FC<Isidebar> = props => {
       ))}
     </Container>
   );
-};
+});
 
 export default observer(() => <Sidebar {...Store.sidebar} />);
