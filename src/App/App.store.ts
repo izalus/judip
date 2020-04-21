@@ -1,21 +1,6 @@
-import { decorate, observable } from "mobx";
-import { FC } from "react";
-
+import { Iconfig, Isidebar, Imodal } from "./App.types";
+import { decorate, observable, action } from "mobx";
 import { IoIosPlay as Run, IoIosAdd as Add } from "react-icons/io";
-
-// Types
-interface Iconfig {
-  path: string;
-}
-
-interface Iaction {
-  Icon: FC;
-  name: string;
-}
-
-interface Isidebar {
-  actions: Iaction[];
-}
 
 class Store {
   config: Iconfig = {
@@ -26,19 +11,32 @@ class Store {
     actions: [
       {
         Icon: Run,
-        name: "Run All"
+        name: "Run All",
+        task: () => {}
       },
       {
         Icon: Add,
-        name: "New"
+        name: "New",
+        task: () => this.triggerModal(true)
       }
     ]
+  };
+
+  modal: Imodal = {
+    open: true
+  };
+
+  triggerModal = (open: boolean) => {
+    this.modal.open = open;
   };
 }
 
 decorate(Store, {
   config: observable,
-  sidebar: observable
+  sidebar: observable,
+  modal: observable,
+
+  triggerModal: action
 });
 
 export default new Store();

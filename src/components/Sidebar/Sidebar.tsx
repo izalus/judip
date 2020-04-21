@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { observer } from "mobx-react";
 
 import Store from "App/App.store";
 import { colors, shadows } from "global/constants";
@@ -42,8 +43,8 @@ const Container = styled.div`
 const Sidebar = () => {
   return (
     <Container>
-      {Store.sidebar.actions.map(({ name, Icon }, i) => (
-        <div className="action" key={i}>
+      {Store.sidebar.actions.map(({ name, Icon, task }, i) => (
+        <div className="action" key={i} onClick={task}>
           <Icon />
           <p className="unselectable">{name}</p>
         </div>
@@ -52,4 +53,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default observer(Sidebar);
