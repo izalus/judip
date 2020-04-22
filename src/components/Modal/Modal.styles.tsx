@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors, shadows } from "global/constants";
+import { colors, shadows, zIndices } from "global/constants";
 
 export default styled.div`
   position: absolute;
@@ -12,7 +12,7 @@ export default styled.div`
   display: flex;
   flex-direction: column;
   color: ${colors.gray};
-  z-index: 2;
+  z-index: ${zIndices.modal};
   width: 50%;
   max-width: 512px;
   max-height: 80%;
@@ -74,5 +74,5 @@ export const Backdrop = styled.div`
   height: 100%;
   background-color: ${colors.black};
   opacity: 0.5;
-  z-index: 1;
+  z-index: ${zIndices.backdrop};
 `;
