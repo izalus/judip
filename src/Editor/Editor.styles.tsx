@@ -8,6 +8,7 @@ export default styled.div`
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
+  padding-bottom: 8px;
 
   ::-webkit-scrollbar {
     width: 12px;

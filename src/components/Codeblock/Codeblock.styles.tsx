@@ -13,10 +13,6 @@ export default styled.div`
   flex-direction: column;
   overflow: hidden;
 
-  :last-of-type {
-    margin-bottom: 8px;
-  }
-
   .tabs {
     width: 100%;
     display: flex;
@@ -68,7 +64,6 @@ export default styled.div`
     padding: 8px;
 
     svg {
-      margin-right: auto;
       font-size: 20px;
       color: ${colors.gray};
       cursor: pointer;
@@ -96,6 +91,28 @@ export default styled.div`
       :active {
         opacity: 0.8;
       }
+
+      :first-of-type {
+        margin-left: auto;
+      }
+    }
+  }
+`;
+
+export const Output = styled.div`
+  max-height: 250px;
+  width: calc(100% - 96px);
+  margin: 8px 48px;
+  background-color: ${colors.primary_dark};
+  margin-bottom: 0px;
+  border-radius: 8px;
+  box-shadow: ${shadows.shadow2};
+
+  .topbar {
+    padding: 8px;
+
+    p {
+      color: ${colors.gray};
     }
   }
 `;
