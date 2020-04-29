@@ -8,8 +8,20 @@ export const Editor: React.FC = () => {
   return (
     <Container>
       <Modal />
-      <Codeblock />
-      <Codeblock />
+      <Codeblock
+        tabs={["console", "main.py"]}
+        selectedTab={1}
+        name="Python 2"
+        fullscreen={false}
+        actions={[{ name: "Run", task: () => {} }]}
+      />
+      <Codeblock
+        fullscreen={false}
+        tabs={["console", "main.class"]}
+        selectedTab={1}
+        name="Java"
+        actions={[{ name: "Run", task: () => {} }]}
+      />
     </Container>
   );
 };
