@@ -24,7 +24,11 @@ interface IProps {
 
 const Codeblock: React.FC<IProps> = props => {
   const [value, setValue] = React.useState<string>("");
+  const [output, setOutput] = React.useState<string>("");
   const [lang, setLang] = React.useState<string>("javascript");
+  const [outputVisibility, setOutputVisibility] = React.useState<boolean>(
+    false
+  );
 
   const setLanguageFromFile = (file: File) => {
     let reader = new FileReader();
@@ -55,9 +59,9 @@ const Codeblock: React.FC<IProps> = props => {
             width: "100%",
             height: "100%"
           }}
-          fontSize="16px"
+          fontSize="14px"
           mode={lang}
-          theme="vibrant_ink" // ["merbivore","terminal","tomorrow_night_bright","twilight"]
+          theme="tomorrow_night_bright" // ["merbivore","terminal","tomorrow_night_bright","twilight"]
           value={value}
           onChange={(newValue: string) => setValue(newValue)}
           name={uuid()}
@@ -74,6 +78,9 @@ const Codeblock: React.FC<IProps> = props => {
         />
         <div className="actions">
           {props.fullscreen ? <ExitFullScreen /> : <FullScreen />}
+          <button onClick={() => setOutputVisibility(!outputVisibility)}>
+            {outputVisibility ? "Hide" : "Show"} Output
+          </button>
           {props.actions.map(({ name, task }, i) => (
             <button onClick={task} key={name + i}>
               {name}
@@ -81,11 +88,37 @@ const Codeblock: React.FC<IProps> = props => {
           ))}
         </div>
       </Container>
-      <Output>
-        <div className="topbar">
-          <p>Output</p>
-        </div>
-      </Output>
+      {outputVisibility ? (
+        <Output>
+          <div className="topbar">
+            <p>Output</p>
+          </div>
+          <AceEditor
+            style={{
+              width: "100%",
+              height: "100%"
+            }}
+            fontSize="14px"
+            mode="text"
+            theme="tomorrow_night_bright" // ["merbivore","terminal","tomorrow_night_bright","twilight"]
+            value={output}
+            onChange={(newOutput: string) => setOutput(newOutput)}
+            name={uuid()}
+            editorProps={{ $blockScrolling: true }}
+            setOptions={{
+              enableBasicAutocompletion: false,
+              enableLiveAutocompletion: false,
+              enableSnippets: false,
+              showLineNumbers: false,
+              tabSize: 2,
+              enableEmmet: false
+            }}
+            showPrintMargin={false}
+            showGutter={false}
+            highlightActiveLine={false}
+          />
+        </Output>
+      ) : null}
     </>
   );
 };

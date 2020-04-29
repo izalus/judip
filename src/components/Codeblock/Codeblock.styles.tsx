@@ -50,11 +50,11 @@ export default styled.div`
     }
 
     ::-webkit-scrollbar-track {
-      background-color: ${colors.dark_tint1};
+      background-color: ${colors.dark_gray1};
     }
 
     ::-webkit-scrollbar-thumb {
-      background-color: ${colors.dark_tint2};
+      background-color: ${colors.dark_gray2};
     }
   }
 
@@ -82,6 +82,7 @@ export default styled.div`
       cursor: pointer;
       opacity: 0.8;
       max-width: 128px;
+      font-size: 13px;
 
       :hover,
       :focus {
@@ -100,19 +101,37 @@ export default styled.div`
 `;
 
 export const Output = styled.div`
-  max-height: 250px;
+  min-height: 250px;
   width: calc(100% - 96px);
   margin: 8px 48px;
   background-color: ${colors.primary_dark};
   margin-bottom: 0px;
   border-radius: 8px;
   box-shadow: ${shadows.shadow2};
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
   .topbar {
     padding: 8px;
 
     p {
       color: ${colors.gray};
+    }
+  }
+
+  .ace_editor > * {
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: ${colors.dark_gray1};
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: ${colors.dark_gray2};
     }
   }
 `;

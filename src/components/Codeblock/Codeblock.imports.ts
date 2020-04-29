@@ -3,7 +3,11 @@ import "ace-builds/src-min-noconflict/ext-language_tools";
 import "ace-builds/src-min-noconflict/ext-emmet";
 
 // IMPORT THEMES
-import "ace-builds/src-min-noconflict/theme-vibrant_ink.js";
+// import "ace-builds/src-min-noconflict/theme-merbivore.js";
+// import "ace-builds/src-min-noconflict/theme-terminal.js";
+import "ace-builds/src-min-noconflict/theme-tomorrow_night_bright.js";
+// import "ace-builds/src-min-noconflict/theme-twilight.js";
+// import "ace-builds/src-min-noconflict/theme-vibrant_ink.js";
 
 // IMPORT LANGUAGES
 import "ace-builds/src-min-noconflict/mode-abap";

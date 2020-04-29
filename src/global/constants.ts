@@ -6,7 +6,9 @@ export const colors = {
   black: "#000",
   gray: "#BABABA",
   dark_tint1: "rgba(0, 0, 0, 0.2)",
-  dark_tint2: "rgba(0, 0, 0, 0.4)"
+  dark_tint2: "rgba(0, 0, 0, 0.4)",
+  dark_gray1: "#2A2A2A",
+  dark_gray2: "#1A1A1A"
 };
 
 export const shadows = {
