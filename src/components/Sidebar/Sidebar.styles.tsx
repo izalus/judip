@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors, shadows } from "global/constants";
+import { colors, shadows, zIndices } from "global/constants";
 
 export default styled.div`
   height: 100%;
@@ -8,6 +8,7 @@ export default styled.div`
   flex-direction: column;
   background-color: ${colors.primary_dark};
   box-shadow: ${shadows.shadow1};
+  z-index: ${zIndices.sidebar};
 
   .action {
     width: 100%;

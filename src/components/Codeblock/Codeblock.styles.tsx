@@ -1,7 +1,13 @@
 import styled from "@emotion/styled";
-import { colors, shadows } from "global/constants";
+import { colors, shadows, zIndices } from "global/constants";
+import { css } from "@emotion/core";
 
-export default styled.div`
+interface IProps {
+  fullscreen: boolean;
+  outputVisibility: boolean;
+}
+
+export default styled.div<IProps>`
   width: calc(100% - 16px);
   min-height: 400px;
   margin: 8px;
@@ -12,6 +18,22 @@ export default styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  z-index: ${zIndices.codeblock};
+
+  ${({ fullscreen, outputVisibility }) =>
+    fullscreen &&
+    css`
+      min-height: unset;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: ${outputVisibility ? "60%" : "100%"};
+      border-radius: unset;
+      box-shadow: unset;
+      margin: 0;
+      z-index: ${zIndices.codeblock_elevated};
+    `}
 
   .tabs {
     width: 100%;
@@ -100,7 +122,7 @@ export default styled.div`
   }
 `;
 
-export const Output = styled.div`
+export const Output = styled.div<IProps>`
   min-height: 250px;
   width: calc(100% - 96px);
   margin: 8px 48px;
@@ -112,9 +134,36 @@ export const Output = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  z-index: ${zIndices.output};
+
+  ${({ fullscreen }) =>
+    fullscreen &&
+    css`
+      min-height: unset;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 40%;
+      width: 100%;
+      margin: 0;
+      border-radius: 0;
+      z-index: ${zIndices.output_elevated};
+    `}
+
+  ${({ outputVisibility }) =>
+    !outputVisibility &&
+    css`
+      display: none;
+    `}
 
   .topbar {
     padding: 8px;
+
+    ${({ fullscreen }) =>
+      fullscreen &&
+      css`
+        display: none;
+      `}
 
     p {
       color: ${colors.gray};

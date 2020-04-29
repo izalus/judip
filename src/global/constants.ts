@@ -22,6 +22,10 @@ export const shadows = {
 export const zIndices = {
   base: 0,
   codeblock: 1,
-  backdrop: 2,
-  modal: 3
+  codeblock_elevated: 2,
+  output: 3,
+  output_elevated: 4,
+  backdrop: 5,
+  modal: 6,
+  sidebar: 7
 };

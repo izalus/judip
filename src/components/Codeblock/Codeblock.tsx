@@ -18,7 +18,6 @@ interface IProps {
   name: string;
   tabs: string[];
   selectedTab: number;
-  fullscreen: boolean;
   actions: IAction[];
 }
 
@@ -29,6 +28,7 @@ const Codeblock: React.FC<IProps> = props => {
   const [outputVisibility, setOutputVisibility] = React.useState<boolean>(
     false
   );
+  const [fullscreen, setScreen] = React.useState<boolean>(false);
 
   const setLanguageFromFile = (file: File) => {
     let reader = new FileReader();
@@ -43,7 +43,7 @@ const Codeblock: React.FC<IProps> = props => {
 
   return (
     <>
-      <Container>
+      <Container fullscreen={fullscreen} outputVisibility={outputVisibility}>
         <div className="tabs">
           {props.tabs.map((tab, i) => (
             <div
@@ -67,17 +67,16 @@ const Codeblock: React.FC<IProps> = props => {
           name={uuid()}
           editorProps={{ $blockScrolling: true }}
           setOptions={{
-            enableBasicAutocompletion: true,
-            enableLiveAutocompletion: true,
-            enableSnippets: true,
-            showLineNumbers: true,
-            tabSize: 2,
-            enableEmmet: true
+            tabSize: 2
           }}
           showPrintMargin={false}
         />
         <div className="actions">
-          {props.fullscreen ? <ExitFullScreen /> : <FullScreen />}
+          {fullscreen ? (
+            <ExitFullScreen onClick={() => setScreen(false)} />
+          ) : (
+            <FullScreen onClick={() => setScreen(true)} />
+          )}
           <button onClick={() => setOutputVisibility(!outputVisibility)}>
             {outputVisibility ? "Hide" : "Show"} Output
           </button>
@@ -88,37 +87,35 @@ const Codeblock: React.FC<IProps> = props => {
           ))}
         </div>
       </Container>
-      {outputVisibility ? (
-        <Output>
-          <div className="topbar">
-            <p>Output</p>
-          </div>
-          <AceEditor
-            style={{
-              width: "100%",
-              height: "100%"
-            }}
-            fontSize="14px"
-            mode="text"
-            theme="tomorrow_night_bright" // ["merbivore","terminal","tomorrow_night_bright","twilight"]
-            value={output}
-            onChange={(newOutput: string) => setOutput(newOutput)}
-            name={uuid()}
-            editorProps={{ $blockScrolling: true }}
-            setOptions={{
-              enableBasicAutocompletion: false,
-              enableLiveAutocompletion: false,
-              enableSnippets: false,
-              showLineNumbers: false,
-              tabSize: 2,
-              enableEmmet: false
-            }}
-            showPrintMargin={false}
-            showGutter={false}
-            highlightActiveLine={false}
-          />
-        </Output>
-      ) : null}
+      <Output fullscreen={fullscreen} outputVisibility={outputVisibility}>
+        <div className="topbar">
+          <p>Output</p>
+        </div>
+        <AceEditor
+          style={{
+            width: "100%",
+            height: "100%"
+          }}
+          fontSize="14px"
+          mode="text"
+          theme="tomorrow_night_bright" // ["merbivore","terminal","tomorrow_night_bright","twilight"]
+          value={output}
+          onChange={(newOutput: string) => setOutput(newOutput)}
+          name={uuid()}
+          editorProps={{ $blockScrolling: true }}
+          setOptions={{
+            enableBasicAutocompletion: false,
+            enableLiveAutocompletion: false,
+            enableSnippets: false,
+            showLineNumbers: false,
+            tabSize: 2,
+            enableEmmet: false
+          }}
+          showPrintMargin={false}
+          showGutter={false}
+          highlightActiveLine={false}
+        />
+      </Output>
     </>
   );
 };
