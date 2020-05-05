@@ -2,10 +2,10 @@ import React from "react";
 import { observer } from "mobx-react";
 
 import Store from "App/App.store";
-import { Isidebar } from "App/App.types";
+import { ISidebar } from "App/App.types";
 import Container from "./Sidebar.styles";
 
-export const Sidebar: React.FC<Isidebar> = observer(props => {
+export const Sidebar: React.FC<ISidebar> = observer(props => {
   return (
     <Container>
       {props.actions.map(({ name, Icon, task }, i) => (

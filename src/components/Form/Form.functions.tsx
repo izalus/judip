@@ -1,9 +1,9 @@
 import React from "react";
-import { Iform } from "App/App.types";
+import { IForm } from "App/App.types";
 
 export const getFormInput = (
   index: number,
-  option: Iform,
+  option: IForm,
   onChange: (index: number, value: string) => void
 ) => {
   let element = <div key={"form" + index} />;

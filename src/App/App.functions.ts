@@ -1,8 +1,33 @@
 import { FC } from "react";
-import { Isidebar, Imodal, Iform } from "./App.types";
+import { ISidebar, IModal, IForm, IContent } from "./App.types";
+
+const gwe = window.require("get-windows-edition");
+const os = window.require("os");
+const { exec: Exec } = window.require("child_process");
+
+const exec = (command: string) => {
+  return new Promise<string>((res, rej) => {
+    Exec(
+      command,
+      (err: Error, out: string | Buffer, errStr: string | Buffer) => {
+        if (err) {
+          console.warn(err);
+          rej({ err, errStr });
+        } else {
+          res(out.toString());
+        }
+      }
+    );
+  });
+};
+
+const gwei = (check: string): boolean =>
+  gwe()
+    .toLowerCase()
+    .includes(check);
 
 export const defaults = {
-  sidebar: (Run: FC, Add: FC, openModal: () => void): Isidebar => ({
+  sidebar: (Run: FC, Add: FC, openModal: () => void): ISidebar => ({
     actions: [
       {
         Icon: Run,
@@ -16,33 +41,24 @@ export const defaults = {
       }
     ]
   }),
-  modal: (closeModal: () => void): Imodal => ({
+  modal: (): IModal => ({
     open: false,
-    title: "Enter Recipe Name",
-    buttons: [
-      {
-        name: "Close",
-        task: () => closeModal()
-      },
-      {
-        name: "Add",
-        task: () => {}
-      }
-    ]
+    title: "Pending Installations...",
+    buttons: []
   }),
-  form: (): Iform[] => [
+  form: (): IForm[] => [
     // input[text] - text, input[number] - number, select - [](3 or more),
     // radio - [](2 or more), checkbox - boolean, textarea - multitext
     // { label, value, default, optional }
-    {
+    /* {
       element: "input",
       type: "text",
       name: "recipe-name",
       label: "",
       value: "",
       placeholder: "Ex: python, java, akhileshns/wordpress"
-    }
-    /* {
+    },
+    {
       element: "input",
       type: "number",
       name: "ram",
@@ -76,5 +92,50 @@ export const defaults = {
       value: "",
       optional: true
     } */
+  ],
+  contact: (): IContent[] => [
+    {
+      element: "text",
+      value: `In order to complete setup, the following software will need to be installed on your machine`
+    }
   ]
+};
+
+interface Ideps {
+  isGit: boolean;
+  isNode: boolean;
+  isJudip: boolean;
+  isDocker: boolean;
+}
+
+export const checkDependencies = async (): Promise<Ideps> => {
+  let isGit = false;
+  let isNode = false;
+  let isJudip = false;
+  let isDocker = false;
+
+  try {
+    await exec("git --version");
+    isGit = true;
+  } catch ({ err, errStr }) {
+    console.error(errStr);
+  }
+
+  try {
+    await exec("node --version");
+    isNode = true;
+    await exec("judip --version");
+    isJudip = true;
+  } catch ({ err, errStr }) {
+    console.error(errStr);
+  }
+
+  try {
+    await exec("docker --version");
+    isDocker = true;
+  } catch ({ err, errStr }) {
+    console.error(errStr);
+  }
+
+  return { isGit, isNode, isJudip, isDocker };
 };

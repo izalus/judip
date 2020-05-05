@@ -1,26 +1,26 @@
 import { FC } from "react";
-interface Iaction {
+interface IAction {
   Icon: FC;
   name: string;
   task: () => void;
 }
 
-export interface Isidebar {
-  actions: Iaction[];
+export interface ISidebar {
+  actions: IAction[];
 }
 
-interface Ibutton {
+export interface IButton {
   name: string;
   task: () => void;
 }
 
-export interface Imodal {
+export interface IModal {
   open: boolean;
   title: string;
-  buttons: Ibutton[];
+  buttons: IButton[];
 }
 
-interface Iinput {
+interface IInput {
   element: "input";
   type: "text" | "number";
   name: string;
@@ -36,7 +36,7 @@ type options = {
   2: string;
 } & string[];
 
-interface Iselect {
+interface ISelect {
   element: "select";
   options: options;
   name: string;
@@ -45,7 +45,7 @@ interface Iselect {
   optional?: boolean;
 }
 
-interface Iradio {
+interface IRadio {
   element: "radio";
   options: [string, string];
   name: string;
@@ -54,7 +54,7 @@ interface Iradio {
   optional?: boolean;
 }
 
-interface Icheckbox {
+interface ICheckbox {
   element: "checkbox";
   name: string;
   label: string;
@@ -62,7 +62,7 @@ interface Icheckbox {
   optional?: boolean;
 }
 
-interface Itextarea {
+interface ITextarea {
   element: "textarea";
   name: string;
   label: string;
@@ -71,4 +71,11 @@ interface Itextarea {
   optional?: boolean;
 }
 
-export type Iform = Iinput | Iselect | Iradio | Icheckbox | Itextarea;
+export type IForm = IInput | ISelect | IRadio | ICheckbox | ITextarea;
+
+interface IText {
+  element: "text";
+  value: string;
+}
+
+export type IContent = IText;

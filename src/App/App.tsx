@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import Editor from "Editor/Editor";
 import { colors, zIndices } from "global/constants";
 import Sidebar from "components/Sidebar/Sidebar";
+import Controller from "./App.controller";
 
 // const {app} = window.require('electron').remote;
 
@@ -19,6 +20,7 @@ const Container = styled.div`
 export const App = () => {
   return (
     <Container>
+      <Controller />
       <Sidebar />
       <Router>
         <Route path="/" component={Editor} />

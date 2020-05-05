@@ -2,11 +2,11 @@ import React from "react";
 import { observer } from "mobx-react";
 import Store from "App/App.store";
 import Container from "./Form.styles";
-import { Iform } from "App/App.types";
+import { IForm } from "App/App.types";
 import { getFormInput } from "./Form.functions";
 
 interface Iprops {
-  options: Iform[];
+  options: IForm[];
   onChange: (index: number, value: string) => void;
 }
 
