@@ -58,7 +58,9 @@ export const getFormInput = (
           value={option.value}
           onChange={({ target }) => onChange(index, target.value)}>
           {option.options.map((item, i) => (
-            <option key={"form-option" + i}>{item}</option>
+            <option key={"form-option" + i} value={item}>
+              {option.optionLabels[i]}
+            </option>
           ))}
         </select>
       </div>
@@ -76,7 +78,7 @@ export const getFormInput = (
               checked={item === option.value}
               onChange={({ target }) => onChange(index, target.value)}
             />{" "}
-            {item}
+            {option.optionLabels[i]}
           </span>
         ))}
       </div>

@@ -38,6 +38,7 @@ type options = {
 
 interface ISelect {
   element: "select";
+  optionLabels: options;
   options: options;
   name: string;
   label: string;
@@ -47,6 +48,7 @@ interface ISelect {
 
 interface IRadio {
   element: "radio";
+  optionLabels: [string, string];
   options: [string, string];
   name: string;
   label: string;

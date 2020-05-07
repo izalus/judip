@@ -67,6 +67,7 @@ export const defaults = {
     },
     {
       element: "select",
+      optionLabels: ["mysql", "pg", "mongo"],
       options: ["mysql", "postgres", "mongodb"],
       name: "database",
       label: "Choose Database",
@@ -74,6 +75,7 @@ export const defaults = {
     },
     {
       element: "radio",
+      optionLabels: ["2", "3"],
       options: ["2", "3"],
       name: "version",
       label: "Choose version",
