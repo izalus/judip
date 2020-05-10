@@ -3,34 +3,7 @@ import { ISidebar, IModal, IForm, IContent, IButton, ICode } from "./App.types";
 
 const { exec: Exec } = window.require("child_process");
 const util = window.require("util");
-
 const exec = util.promisify(Exec);
-
-const addRecipe = async (
-  form: IForm[],
-  setModalMeta: (title: string, buttons: IButton[]) => void,
-  setForm: (form: IForm[]) => void
-) => {
-  try {
-    let value = form[0].value.toString().toLowerCase();
-    if (value.includes(":") && value.includes("/")) {
-      const [database, reponame] = value.split(":");
-      const [author, name] = reponame.split("/");
-      value = `https://${database}.com/${author}/${name}`;
-    } else if (value.includes("/")) {
-      const [author, name] = value.split("/");
-      value = `https://github.com/${author}/${name}`;
-    } else {
-      value = `https://github.com/izalus/${value}`;
-    }
-
-    await exec("judip pull " + value);
-    const { stdout } = await exec("judip get " + value);
-    const newForm = JSON.parse(stdout);
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 export const defaults = {
   sidebar: (Run: FC, Add: FC, openModal: () => void): ISidebar => ({

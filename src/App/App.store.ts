@@ -63,7 +63,63 @@ class Store {
       },
       {
         name: "Add",
-        task: () => {}
+        task: async () => {
+          try {
+            let value = this.form[0].value.toString().toLowerCase();
+            if (value.includes(":") && value.includes("/")) {
+              const [database, reponame] = value.split(":");
+              const [author, name] = reponame.split("/");
+              value = `https://${database}.com/${author}/${name}`;
+            } else if (value.includes("/")) {
+              const [author, name] = value.split("/");
+              value = `https://github.com/${author}/${name}`;
+            } else {
+              value = `https://github.com/izalus/${value}`;
+            }
+
+            await exec("judip pull " + value, {
+              cwd: this.code.location
+            });
+            const { stdout } = await exec("judip get " + value, {
+              cwd: this.code.location
+            });
+            const newForm = JSON.parse(stdout.toString());
+            this.setForm(newForm);
+            this.setModalMeta("Enter Details", [
+              {
+                name: "Close",
+                task: () => this.closeModal()
+              },
+              {
+                name: "Add",
+                task: async () => {
+                  interface IOutputs {
+                    [key: string]: string | boolean;
+                  }
+
+                  let outputs: IOutputs = {};
+                  this.form.forEach(({ name, value }) => {
+                    outputs[name] = value;
+                  });
+
+                  await exec(
+                    `judip add -o ${JSON.stringify(outputs).replace(
+                      /"/g,
+                      '\\"'
+                    )} ${value}`,
+                    {
+                      cwd: this.code.location
+                    }
+                  );
+
+                  this.closeModal();
+                }
+              }
+            ]);
+          } catch (err) {
+            console.log(err);
+          }
+        }
       }
     ]);
     this.openModal();
