@@ -5,10 +5,6 @@ import Store from "./App.store";
 import { checkDependencies } from "./App.functions";
 import { IForm, IContent, IButton, ICode } from "./App.types";
 
-const child_process = window.require("child_process");
-const util = window.require("util");
-const exec = util.promisify(child_process.exec);
-
 interface IProps {
   code: ICode;
   form: IForm[];
@@ -66,10 +62,6 @@ export const Controller: React.FC<IProps> = observer(props => {
         ]);
         props.openModal();
       }
-
-      await exec("judip create " + props.code.name, {
-        cwd: props.code.location
-      });
     })();
   }, []);
 

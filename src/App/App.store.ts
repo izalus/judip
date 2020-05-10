@@ -5,7 +5,9 @@ import { defaults } from "./App.functions";
 // import { cloneDeep as clone } from "lodash";
 
 const { dialog } = window.require("electron").remote;
-
+const child_process = window.require("child_process");
+const util = window.require("util");
+const exec = util.promisify(child_process.exec);
 class Store {
   // Actions
   openModal = () => {
@@ -78,6 +80,10 @@ class Store {
     });
 
     this.closeModal();
+
+    await exec("judip create " + this.form[0].value.toString(), {
+      cwd: path.filePaths[0]
+    });
   };
 
   // Observables
