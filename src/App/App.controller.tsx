@@ -3,14 +3,22 @@ import { observer } from "mobx-react";
 
 import Store from "./App.store";
 import { checkDependencies } from "./App.functions";
-import { IForm, IContent, IButton } from "./App.types";
+import { IForm, IContent, IButton, ICode } from "./App.types";
+
+const child_process = window.require("child_process");
+const util = window.require("util");
+const exec = util.promisify(child_process.exec);
 
 interface IProps {
+  code: ICode;
+  form: IForm[];
+  setCode: (code: ICode) => void;
   setForm: (form: IForm[]) => void;
   setContact: (content: IContent[]) => void;
   setModalMeta: (title: string, buttons: IButton[]) => void;
   openModal: () => void;
   closeModal: () => void;
+  createProject: () => void;
 }
 
 export const Controller: React.FC<IProps> = observer(props => {
@@ -39,7 +47,29 @@ export const Controller: React.FC<IProps> = observer(props => {
           }
         ]);
         props.openModal();
+      } else if (props.code.name === "" || props.code.location === "") {
+        props.setContact([]);
+        props.setForm([
+          {
+            name: "project-name",
+            element: "input",
+            type: "text",
+            label: "Enter project name",
+            value: ""
+          }
+        ]);
+        props.setModalMeta("Project Details", [
+          {
+            name: "Save",
+            task: props.createProject
+          }
+        ]);
+        props.openModal();
       }
+
+      await exec("judip create " + props.code.name, {
+        cwd: props.code.location
+      });
     })();
   }, []);
 
@@ -48,10 +78,14 @@ export const Controller: React.FC<IProps> = observer(props => {
 
 export default observer(() => (
   <Controller
+    code={Store.code}
+    form={Store.form}
+    setCode={Store.setCode}
     setForm={Store.setForm}
     setContact={Store.setContact}
     setModalMeta={Store.setModalMeta}
     openModal={Store.openModal}
     closeModal={Store.closeModal}
+    createProject={Store.createProject}
   />
 ));

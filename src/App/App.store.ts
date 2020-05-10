@@ -1,8 +1,10 @@
-import { ISidebar, IButton, IModal, IForm, IContent } from "./App.types";
+import { ISidebar, IButton, IModal, IForm, IContent, ICode } from "./App.types";
 import { decorate, observable, action } from "mobx";
 import { IoIosPlay as Run, IoIosAdd as Add } from "react-icons/io";
 import { defaults } from "./App.functions";
 // import { cloneDeep as clone } from "lodash";
+
+const { dialog } = window.require("electron").remote;
 
 class Store {
   // Actions
@@ -35,6 +37,10 @@ class Store {
     this.modal.buttons = buttons;
   };
 
+  setCode = (code: ICode) => {
+    this.code = code;
+  };
+
   // Support Functions
   addNewAction = () => {
     this.setForm([
@@ -61,11 +67,25 @@ class Store {
     this.openModal();
   };
 
+  createProject = async () => {
+    const path = await dialog.showOpenDialog({
+      properties: ["openDirectory"]
+    });
+
+    this.setCode({
+      name: this.form[0].value.toString(),
+      location: path.filePaths[0]
+    });
+
+    this.closeModal();
+  };
+
   // Observables
   sidebar: ISidebar = defaults.sidebar(Run, Add, this.addNewAction);
   modal: IModal = defaults.modal();
   form: IForm[] = defaults.form();
   content: IContent[] = defaults.contact();
+  code: ICode = defaults.code();
 }
 
 decorate(Store, {
@@ -75,11 +95,13 @@ decorate(Store, {
   setForm: action,
   setContact: action,
   setModalMeta: action,
+  setCode: action,
 
   sidebar: observable,
   modal: observable,
   form: observable,
-  content: observable
+  content: observable,
+  code: observable
 });
 
 export default new Store();

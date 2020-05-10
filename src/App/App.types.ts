@@ -81,3 +81,8 @@ interface IText {
 }
 
 export type IContent = IText;
+
+export interface ICode {
+  name: string;
+  location: string;
+}
