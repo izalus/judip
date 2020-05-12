@@ -1,9 +1,19 @@
-import { ISidebar, IButton, IModal, IForm, IContent, ICode } from "./App.types";
+import {
+  ISidebar,
+  IButton,
+  IModal,
+  IForm,
+  IContent,
+  ICode,
+  IBlock
+} from "./App.types";
 import { decorate, observable, action } from "mobx";
 import { IoIosPlay as Run, IoIosAdd as Add } from "react-icons/io";
 import { defaults } from "./App.functions";
 // import { cloneDeep as clone } from "lodash";
 
+const fs = window.require("fs-extra");
+const path = window.require("path");
 const { dialog } = window.require("electron").remote;
 const child_process = window.require("child_process");
 const util = window.require("util");
@@ -41,6 +51,25 @@ class Store {
 
   setCode = (code: ICode) => {
     this.code = code;
+  };
+
+  setBlockTab = (index: number, tabIndex: number, value: string) => {
+    this.blocks[index].tabs[tabIndex].value = value;
+  };
+
+  setBlockLogs = (index: number, value: string) => {
+    this.blocks[index].logs = value;
+  };
+
+  syncBlocks = async () => {
+    try {
+      const project = await fs.readJson(
+        path.join(this.code.location, "judip.json")
+      );
+      this.syncedBlocks = project.blocks;
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // Support Functions
@@ -142,12 +171,63 @@ class Store {
     });
   };
 
+  saveBlock = async (index: number) => {
+    try {
+      const project = await fs.readJson(
+        path.join(this.code.location, "judip.json")
+      );
+      project.blocks[index] = this.blocks[index];
+      this.syncedBlocks = project.blocks;
+      await fs.writeJson(path.join(this.code.location, "judip.json"), project);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  getBlocks = async () => {
+    try {
+      const project = await fs.readJson(
+        path.join(this.code.location, "judip.json")
+      );
+      this.blocks = project.blocks;
+      this.syncedBlocks = project.blocks;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  getBlock = async (index: number) => {
+    try {
+      const project = await fs.readJson(
+        path.join(this.code.location, "judip.json")
+      );
+      this.blocks[index] = project.blocks[index];
+      this.syncedBlocks[index] = project.blocks[index];
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  runBlock = async (index: number) => {
+    try {
+      await this.saveBlock(index);
+      await exec(`judip run -b ${this.blocks[index].id} `, {
+        cwd: this.code.location
+      });
+      await this.getBlock(index);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   // Observables
   sidebar: ISidebar = defaults.sidebar(Run, Add, this.addNewAction);
   modal: IModal = defaults.modal();
   form: IForm[] = defaults.form();
   content: IContent[] = defaults.contact();
   code: ICode = defaults.code();
+  blocks: IBlock[] = defaults.blocks();
+  syncedBlocks: IBlock[] = defaults.blocks();
 }
 
 decorate(Store, {
@@ -158,12 +238,23 @@ decorate(Store, {
   setContact: action,
   setModalMeta: action,
   setCode: action,
+  setBlockTab: action,
+  setBlockLogs: action,
+  syncBlocks: action,
+  addNewAction: action,
+  createProject: action,
+  saveBlock: action,
+  getBlocks: action,
+  getBlock: action,
+  runBlock: action,
 
   sidebar: observable,
   modal: observable,
   form: observable,
   content: observable,
-  code: observable
+  code: observable,
+  blocks: observable,
+  syncedBlocks: observable
 });
 
 export default new Store();

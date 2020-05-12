@@ -31,6 +31,7 @@
     "react-icons": "^3.9.0",
     "react-nl2br": "^0.6.0",
     "react-router-dom": "^5.1.2",
+    "short-hash": "^1.0.0",
     "typescript": "^3.8.3",
     "update-electron-app": "^1.2.0",
     "uuid": "^7.0.3"

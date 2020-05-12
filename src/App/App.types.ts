@@ -86,3 +86,22 @@ export interface ICode {
   name: string;
   location: string;
 }
+
+interface ITab {
+  type: "code" | "console";
+  path?: string;
+  value: string;
+}
+
+interface IOutputs {
+  [key: string]: string | boolean;
+}
+
+export interface IBlock {
+  name: string;
+  recipe: string;
+  id: number | string;
+  tabs: ITab[];
+  outputs: IOutputs;
+  logs: string;
+}

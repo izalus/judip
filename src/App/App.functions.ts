@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ISidebar, IModal, IForm, IContent, IButton, ICode } from "./App.types";
+import { ISidebar, IModal, IForm, IContent, ICode, IBlock } from "./App.types";
 
 const { exec: Exec } = window.require("child_process");
 const util = window.require("util");
@@ -83,7 +83,9 @@ export const defaults = {
   code: (): ICode => ({
     name: "hello-world",
     location: "C:\\_WORKING\\Development\\judip-demo"
-  })
+  }),
+  blocks: (): IBlock[] => [],
+  syncedBlocks: (): IBlock[] => []
 };
 
 interface Ideps {

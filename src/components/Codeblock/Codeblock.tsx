@@ -1,58 +1,52 @@
 import React from "react";
 import Container, { Output } from "./Codeblock.styles";
 import AceEditor from "react-ace";
+import "ace-builds/webpack-resolver";
 import "./Codeblock.imports";
 import { getModeForPath } from "ace-builds/src-min-noconflict/ext-modelist";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import {
   IoMdExpand as FullScreen,
   IoMdContract as ExitFullScreen
 } from "react-icons/io";
-
-interface IAction {
-  name: string;
-  task: () => void;
-}
+import { IBlock } from "App/App.types";
+import { observer } from "mobx-react";
 
 interface IProps {
-  name: string;
-  tabs: string[];
-  selectedTab: number;
-  actions: IAction[];
+  syncedBlock: IBlock;
+  block: IBlock;
+  index: number;
+  setBlockTab: (index: number, tabIndex: number, value: string) => void;
+  setBlockLogs: (index: number, value: string) => void;
+  saveBlock: (index: number) => void;
+  runBlock: (index: number) => void;
 }
 
 const Codeblock: React.FC<IProps> = props => {
-  const [value, setValue] = React.useState<string>("");
-  const [output, setOutput] = React.useState<string>("");
-  const [lang, setLang] = React.useState<string>("javascript");
+  const [selectedTab, setTab] = React.useState<number>(0);
   const [outputVisibility, setOutputVisibility] = React.useState<boolean>(
     false
   );
   const [fullscreen, setScreen] = React.useState<boolean>(false);
 
-  const setLanguageFromFile = (file: File) => {
-    let reader = new FileReader();
-    reader.onload = (e: ProgressEvent<FileReader>) => {
-      const newValue = e.target?.result?.toString();
-      setValue(newValue ? newValue : value);
-    };
-    reader.readAsText(file);
-
-    setLang(getModeForPath(file.name).name);
-  };
+  const mode =
+    props.block.tabs[selectedTab].type === "code"
+      ? getModeForPath(props.block.tabs[selectedTab].path).name
+      : "text";
 
   return (
     <>
       <Container fullscreen={fullscreen} outputVisibility={outputVisibility}>
         <div className="tabs">
-          {props.tabs.map((tab, i) => (
+          {props.block.tabs.map((tab, i) => (
             <div
-              className={"tab " + (i === props.selectedTab ? "selected" : "")}
-              key={tab + i}>
-              {tab}
+              onClick={() => setTab(i)}
+              className={"tab " + (i === selectedTab ? "selected" : "")}
+              key={i}>
+              {tab.type === "code" ? tab.path : tab.type}
             </div>
           ))}
-          <div className="name">{props.name}</div>
+          <div className="name">{props.block.name}</div>
         </div>
         <AceEditor
           style={{
@@ -60,14 +54,20 @@ const Codeblock: React.FC<IProps> = props => {
             height: "100%"
           }}
           fontSize="14px"
-          mode={lang}
-          theme="tomorrow_night_bright" // ["merbivore","terminal","tomorrow_night_bright","twilight"]
-          value={value}
-          onChange={(newValue: string) => setValue(newValue)}
+          mode={mode}
+          theme="tomorrow_night_bright"
+          value={props.block.tabs[selectedTab].value}
+          onChange={(newValue: string) =>
+            props.setBlockTab(props.index, selectedTab, newValue)
+          }
           name={uuid()}
           editorProps={{ $blockScrolling: true }}
           setOptions={{
-            tabSize: 2
+            tabSize: 2,
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
+            enableEmmet: true,
+            enableSnippets: true
           }}
           showPrintMargin={false}
         />
@@ -80,11 +80,17 @@ const Codeblock: React.FC<IProps> = props => {
           <button onClick={() => setOutputVisibility(!outputVisibility)}>
             {outputVisibility ? "Hide" : "Show"} Output
           </button>
-          {props.actions.map(({ name, task }, i) => (
-            <button onClick={task} key={name + i}>
-              {name}
-            </button>
-          ))}
+          <button
+            onClick={() => props.saveBlock(props.index)}
+            disabled={
+              props.syncedBlock && props.block
+                ? props.syncedBlock.tabs[selectedTab].value ===
+                  props.block.tabs[selectedTab].value
+                : false
+            }>
+            Save
+          </button>
+          <button onClick={() => props.runBlock(props.index)}>Run</button>
         </div>
       </Container>
       <Output fullscreen={fullscreen} outputVisibility={outputVisibility}>
@@ -99,8 +105,10 @@ const Codeblock: React.FC<IProps> = props => {
           fontSize="14px"
           mode="text"
           theme="tomorrow_night_bright" // ["merbivore","terminal","tomorrow_night_bright","twilight"]
-          value={output}
-          onChange={(newOutput: string) => setOutput(newOutput)}
+          value={props.block.logs}
+          onChange={(newOutput: string) =>
+            props.setBlockLogs(props.index, newOutput)
+          }
           name={uuid()}
           editorProps={{ $blockScrolling: true }}
           setOptions={{
@@ -120,4 +128,4 @@ const Codeblock: React.FC<IProps> = props => {
   );
 };
 
-export default Codeblock;
+export default observer(Codeblock);

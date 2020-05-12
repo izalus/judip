@@ -15,6 +15,7 @@ interface IProps {
   openModal: () => void;
   closeModal: () => void;
   createProject: () => void;
+  getBlocks: () => void;
 }
 
 export const Controller: React.FC<IProps> = observer(props => {
@@ -61,6 +62,8 @@ export const Controller: React.FC<IProps> = observer(props => {
           }
         ]);
         props.openModal();
+      } else {
+        props.getBlocks();
       }
     })();
   }, []);
@@ -79,5 +82,6 @@ export default observer(() => (
     openModal={Store.openModal}
     closeModal={Store.closeModal}
     createProject={Store.createProject}
+    getBlocks={Store.getBlocks}
   />
 ));
