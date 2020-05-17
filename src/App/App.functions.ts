@@ -81,8 +81,8 @@ export const defaults = {
     }
   ],
   code: (): ICode => ({
-    name: "hello-world",
-    location: "C:\\_WORKING\\Development\\judip-demo"
+    name: "hello-world", // "hello-world",
+    location: "C:\\_WORKING\\Development\\hello-world" // "C:\\_WORKING\\Development\\judip-demo"
   }),
   blocks: (): IBlock[] => [],
   syncedBlocks: (): IBlock[] => []

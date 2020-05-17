@@ -141,6 +141,7 @@ class Store {
                     }
                   );
 
+                  this.getLatestBlock();
                   this.closeModal();
                 }
               }
@@ -169,6 +170,26 @@ class Store {
     await exec("judip create " + this.form[0].value.toString(), {
       cwd: path.filePaths[0]
     });
+  };
+
+  getLatestBlock = async () => {
+    try {
+      let index = -1;
+      const project = await fs.readJson(
+        path.join(this.code.location, "judip.json")
+      );
+      project.blocks.forEach((block: any, i: number) => {
+        if (project.count.toString() === block.id.toString()) {
+          index = i;
+        }
+      });
+      if (index !== -1) {
+        this.blocks.push(project.blocks[index]);
+        this.syncedBlocks.push(project.blocks[index]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   saveBlock = async (index: number) => {
@@ -247,6 +268,7 @@ decorate(Store, {
   getBlocks: action,
   getBlock: action,
   runBlock: action,
+  getLatestBlock: action,
 
   sidebar: observable,
   modal: observable,
